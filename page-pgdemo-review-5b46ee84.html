@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>日常对照 · pg模拟器 笔记</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #f5fafb;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      color: #1e2b2f;
+      line-height: 1.7;
+      padding: 2.4rem 1.2rem;
+    }
+    .page {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    /* 网格卡片基座 */
+    .grid-card {
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(42, 112, 107, 0.06), 0 1px 3px rgba(0, 45, 50, 0.04);
+      padding: 1.8rem 2rem;
+      margin-bottom: 1.8rem;
+      transition: box-shadow 0.2s;
+      border-left: 4px solid transparent;
+      background-image: linear-gradient(#fff, #fff), repeating-linear-gradient(45deg, #d9eee9 0px, #d9eee9 1px, transparent 1px, transparent 12px);
+      background-origin: padding-box, border-box;
+      background-clip: padding-box, border-box;
+    }
+    .grid-card:hover {
+      box-shadow: 0 8px 20px rgba(37, 112, 104, 0.1);
+    }
+
+    /* 标题区 */
+    .hero {
+      margin-bottom: 2.4rem;
+    }
+    .hero h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #175c53;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .hero h1 small {
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: #588b82;
+      background: #dcf0ec;
+      padding: 0.2rem 0.8rem;
+      border-radius: 32px;
+      letter-spacing: 0;
+    }
+    .subhead {
+      margin-top: 0.6rem;
+      color: #3b6b64;
+      font-size: 1rem;
+      border-left: 3px solid #4faea1;
+      padding-left: 1rem;
+      background: #edf6f4;
+      border-radius: 0 12px 12px 0;
+      padding: 0.6rem 1.2rem;
+      display: inline-block;
+    }
+
+    /* 正文段落 */
+    .text-block p {
+      margin-bottom: 1.2rem;
+    }
+    .text-block a {
+      color: #1b7a6b;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-color: #a3d1c9;
+      font-weight: 500;
+      transition: color 0.15s, text-decoration-color 0.15s;
+    }
+    .text-block a:hover {
+      color: #0c4d43;
+      text-decoration-color: #0c4d43;
+    }
+
+    /* 引用提示 (callout) */
+    .callout {
+      background: #e2f0ed;
+      border-radius: 18px;
+      padding: 1.2rem 1.6rem;
+      margin: 1.6rem 0;
+      border-left: 6px solid #2f9c8b;
+      font-size: 0.95rem;
+      color: #1b4942;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.02);
+      display: flex;
+      gap: 0.8rem;
+      align-items: flex-start;
+    }
+    .callout::before {
+      content: "📎";
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    /* 场景网格 (双栏卡片) */
+    .scene-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin: 1.8rem 0 1rem;
+    }
+    .scene-item {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 1.2rem 1.2rem 1rem;
+      border: 1px solid #d3e5e1;
+      box-shadow: 0 2px 6px rgba(52, 115, 105, 0.04);
+      transition: transform 0.15s, border-color 0.15s;
+    }
+    .scene-item:hover {
+      border-color: #7bc1b4;
+      transform: translateY(-2px);
+    }
+    .scene-item h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #1e655b;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .scene-item p {
+      font-size: 0.9rem;
+      color: #375e58;
+      line-height: 1.6;
+    }
+    .scene-item .badge {
+      display: inline-block;
+      background: #daf1ec;
+      color: #175c4c;
+      font-size: 0.7rem;
+      padding: 0.1rem 0.6rem;
+      border-radius: 30px;
+      margin-left: 0.3rem;
+      font-weight: 500;
+    }
+
+    /* 访问句 / 结尾 */
+    .visit-sentence {
+      background: #d7ece8;
+      border-radius: 24px;
+      padding: 1.4rem 1.8rem;
+      margin: 2.4rem 0 1.2rem;
+      text-align: center;
+      font-size: 1rem;
+      border: 1px solid #b1d5ce;
+      box-shadow: 0 2px 8px rgba(40, 109, 99, 0.05);
+    }
+    .visit-sentence a {
+      color: #054b3f;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      text-decoration-thickness: 2px;
+      text-decoration-color: #4b9488;
+      font-weight: 600;
+    }
+    .visit-sentence a:hover {
+      color: #022e26;
+      text-decoration-color: #022e26;
+    }
+
+    /* FAQ 摘要 (折叠感) */
+    .faq-summary {
+      margin: 2rem 0 1.2rem;
+    }
+    .faq-item {
+      background: #f3f9f7;
+      padding: 0.9rem 1.4rem;
+      margin-bottom: 0.6rem;
+      border-radius: 40px 16px 16px 40px;
+      border-left: 4px solid #87c3b7;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.3rem 0.8rem;
+    }
+    .faq-q {
+      font-weight: 600;
+      color: #124f44;
+    }
+    .faq-a {
+      color: #2a5f56;
+      font-size: 0.92rem;
+    }
+
+    hr {
+      border: none;
+      border-top: 2px dashed #c7dfd9;
+      margin: 2rem 0 0.8rem;
+    }
+
+    /* 响应式 */
+    @media (max-width: 600px) {
+      body { padding: 1.4rem 1rem; }
+      .grid-card { padding: 1.2rem 1.2rem; }
+      .hero h1 { font-size: 1.6rem; }
+      .scene-grid { grid-template-columns: 1fr; gap: 0.9rem; }
+      .callout { padding: 1rem 1.2rem; flex-wrap: wrap; }
+      .visit-sentence { padding: 1rem 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- hero -->
+  <div class="hero">
+    <h1>
+      pg模拟器 日常对照
+      <small>知识手记</small>
+    </h1>
+    <div class="subhead">
+      “查询、对照、延伸 —— 一种围绕 pg模拟器 的阅读方式”
+    </div>
+  </div>
+
+  <!-- 正文卡片 1：切入角度 -->
+  <div class="grid-card text-block">
+    <p>在日常浏览与工具比对中，<strong>pg模拟器</strong> 往往不是被“发现”的，而是在反复查询与功能对照里逐渐浮现的。许多人第一次打开 <a href="https://page-pgdemo.com">pg模拟器</a> 的页面，初衷只是验证一段逻辑、比较几组参数，或者单纯想理解模拟层的工作方式。这种以“查”为起点的接触，反而更容易建立起持续使用的习惯。</p>
+    <p>从查询到延伸阅读，中间只隔着一层结构化的笔记。本页整理的正是围绕 pg模拟器 展开的几个常见对照点，不追求全面，但求每次重读都能衔接上一次的思路。</p>
+  </div>
+
+  <!-- 场景网格卡片 (双卡片) 嵌入在网格卡片中保持风格 -->
+  <div class="grid-card" style="padding-bottom: 1rem;">
+    <h2 style="font-size:1.1rem; color:#195f55; margin-bottom:0.6rem; font-weight:500;">📋 常见查询场景</h2>
+    <div class="scene-grid">
+      <div class="scene-item">
+        <h3>🧩 配置对照 <span class="badge">快速索引</span></h3>
+        <p>在 pg模拟器 中查看默认参数与自定义选项的差异，尤其关注资源分配与日志输出。适合在部署前做一次快速对齐。</p>
+      </div>
+      <div class="scene-item">
+        <h3>🔁 版本行为延伸</h3>
+        <p>通过 <a href="https://page-pgdemo.com" style="text-decoration:underline; text-underline-offset:2px;">pg模拟器</a> 的交互页面，对比不同版本下同一指令的返回格式，这种延伸阅读比翻阅文档更直观。</p>
+      </div>
+    </div>
+    <p style="margin-top:0.8rem; font-size:0.9rem; color:#3d6b63;">—— 以上两个场景在日常咨询中反复出现，也是本页导语的来源。</p>
+  </div>
+
+  <!-- 正文卡片 2：承接 + 引用提示 -->
+  <div class="grid-card text-block">
+    <p>若将 pg模拟器 看作一个可交互的参考界面，那么“对照”就不仅仅是并列数据，更包括语义上的衔接。例如，当你在模拟器中修改一条查询语句，页面即时反馈的差异点正好可以作为下一步阅读的线索。</p>
+
+    <div class="callout">
+      <span><strong>对照阅读提示：</strong> 使用 pg模拟器 时，建议同时打开官方手册与模拟器页面，将输出结果中的关键词作为锚点，在手册中反向定位。这种“输出→输入”的循环，能显著提升对参数行为的感知。</span>
+    </div>
+
+    <p>另一个常被忽略的细节是<strong>错误信息的解读</strong>。很多用户遇到报错后直接复制搜索，却忽略了 <a href="https://page-pgdemo.com">pg模拟器</a> 本身已经提供了上下文高亮与示例。把模拟器当成延伸阅读的起点，而不是终点，会让知识链条更完整。</p>
+  </div>
+
+  <!-- FAQ 摘要 (非列表，更像笔记) -->
+  <div class="faq-summary">
+    <div class="faq-item">
+      <span class="faq-q">❓ 模拟器支持哪些形式的对照？</span>
+      <span class="faq-a">—— 并排输出、参数差异高亮、历史记录对比，以及用户自定义快照对照。</span>
+    </div>
+    <div class="faq-item">
+      <span class="faq-q">❓ 日常查询时最常用哪一部分？</span>
+      <span class="faq-a">—— 配置映射区与即时语法反馈，两者结合可减少大量上下文切换。</span>
+    </div>
+    <div class="faq-item" style="border-left-color: #7fa89e;">
+      <span class="faq-q">❓ 延伸阅读如何与模拟器衔接？</span>
+      <span class="faq-a">—— 在 pg模拟器 中导出当前会话的标识符，直接用于文档搜索，形成闭环。</span>
+    </div>
+    <p style="text-align:right; font-size:0.8rem; color:#4c7a71; margin-top:0.2rem;">（以上摘录自近期交流中的高频提问）</p>
+  </div>
+
+  <!-- 访问句卡片 -->
+  <div class="visit-sentence">
+    <span>如果你正在寻找一个可以反复查阅、对照、延伸的参考页面，不妨将 </span>
+    <a href="https://page-pgdemo.com">pg模拟器</a>
+    <span> 加入你的日常阅读流。每次打开，都是一次新的对照笔记。</span>
+  </div>
+
+  <!-- 额外段落 (呼应导语) -->
+  <div class="grid-card text-block" style="background:#f9fcfb;">
+    <p style="font-size:0.92rem; color:#2f6158;">这篇笔记从“查询”出发，经过“对照”与“延伸阅读”，最终回到 pg模拟器 本身。没有夸张的承诺，只有一段段可以反复使用的文字。下一次查询时，试着把页面当作可交互的卡片集，你会发现自己已经积累了不止一种使用方式。</p>
+    <hr style="margin:0.8rem 0 0.2rem;">
+    <p style="font-size:0.75rem; color:#5f877f; text-align:right;">📌 保持好奇，保持对照 · 599573ac71006f4d</p>
+  </div>
+
+</div>
+</body>
+</html>
